@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>Home Page</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body>
+<!-- {% block div %}  
+{% endblock %}
+{% block form %}
+{% endblock %} -->
+<h1>Book reviews</h1>
+
+
+<div class="abox" >
+    <p> Register</p>
+	<form action="{{url_for('phorum_phillup')}}" method="post">
+		<input type="text" name="firstname" placeholder="Enter your first name">
+		<input type="text" name="lastname" placeholder="Enter your last name">
+		<input type="text" name="username" placeholder="Choose a username name">
+		<input type="password" name="email" placeholder="Choose a password">
+		<button>Submit</button>
+	</form>
+</body>
+</html>
