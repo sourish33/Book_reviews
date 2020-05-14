@@ -19,6 +19,8 @@ Session(app)
 engine = create_engine(DATABASE_URL)
 s = scoped_session(sessionmaker(bind=engine))
 meta = MetaData()
+meta.reflect(bind=engine)
+
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -32,12 +34,16 @@ def index():
         email = request.form.get("email")
         psw = request.form.get("psw")
         psw_repeat = request.form.get("psw-repeat")
-        output_text = "Hello {} {}, your email address is {} and your password is {}".format(firstname, lastname, email, psw)
-        return render_template("index.html", output_text=output_text)
+        Users = meta.tables['Users']
+        ins = Users.insert().values(username = email, password = psw, lastname = lastname, firstname = firstname)
+        s.execute(ins)
+        s.commit()
+        output_text = "Hello {} {}! Thank you for registering.".format(firstname, lastname)
+        return render_template("login.html", output_text=output_text)
 
 @app.route('/login')
-def login():
-    return render_template('login.html')
+def login(output_text=""):
+    return render_template('login.html', output_text=output_text)
 
 if __name__ == '__main__':
 	app.run()

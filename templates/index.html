@@ -55,7 +55,9 @@
             <div class="my_container signin">
                 <p>Already have an account? <a href="{{url_for('login')}}">Sign in</a>.</p>
             </div>
+            {%  if output_text != "" %}
             <div><p>{{output_text}}</p> </div>
+            {% endif %}
     </div>
 </body>
 </html>
