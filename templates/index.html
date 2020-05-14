@@ -9,7 +9,7 @@
         <meta name="author" content="">
         <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     </head>
 
 <body>
@@ -26,7 +26,7 @@
     {% endblock %} -->
 
 
-        <form action="action_page.php">
+    <form action="{{url_for('index')}}" method="post">
             <div class="my_container">
                 <h2>Register</h2>
                 <p>Please fill in this form to create an account.</p>
@@ -49,12 +49,13 @@
                 <hr>
             
                 <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-                <button type="button" class="btn btn-primary btn-lg">Submit</button>
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
             </div>
     </form> 
             <div class="my_container signin">
-                <p>Already have an account? <a href="login.html">Sign in</a>.</p>
+                <p>Already have an account? <a href="{{url_for('login')}}">Sign in</a>.</p>
             </div>
+            <div><p>{{output_text}}</p> </div>
     </div>
 </body>
 </html>
