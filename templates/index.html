@@ -31,15 +31,28 @@
                 <h2>Register</h2>
                 <p>Please fill in this form to create an account.</p>
                 <hr>
+                <a id="error_msg_anchor"></a>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                  {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <!-- <strong>Title</strong> --> {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                 {% endwith %}
 
                 <label for="firstname"><b>First Name</b></label>
                 <input type="text" placeholder="Enter First Name" name="firstname" required>
 
                 <label for="lastname"><b>Last Name</b></label>
                 <input type="text" placeholder="Enter Last Name" name="lastname" required>
-            
+                
                 <label for="email"><b>Email</b></label>
                 <input type="text" placeholder="Enter Email" name="email" required>
+
             
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Choose a Password" name="psw" required>
@@ -55,9 +68,7 @@
             <div class="my_container signin">
                 <p>Already have an account? <a href="{{url_for('login')}}">Sign in</a>.</p>
             </div>
-            {%  if output_text != "" %}
-            <div><p>{{output_text}}</p> </div>
-            {% endif %}
+
     </div>
 </body>
 </html>

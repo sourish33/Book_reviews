@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, flash, redirect, url_for
 from flask_session import Session
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -38,6 +38,7 @@ def index():
         #check t see if that username exists
         sel = Users.select().where(Users.c.username ==  email ) #OR .contains()
         result = s.execute(sel).fetchall()
+        s.commit()
         if len(result) == 0:# didn't find it
             ins = Users.insert().values(username = email, password = psw, lastname = lastname, firstname = firstname)
             s.execute(ins)
@@ -45,7 +46,9 @@ def index():
             output_text = "Hello {} {}! Thank you for registering.".format(firstname, lastname)
             return render_template("login.html", output_text=output_text)          
         else:# oops it already exists. Don't add to the database
-            return render_template("index.html")
+            flash('A user with that email address already exists. Please retry or log in ', "danger")
+            #return render_template("index.html/#email_location")
+            return redirect(url_for('index',_anchor='error_msg_anchor'))
 
 
 @app.route('/login')
@@ -56,4 +59,4 @@ def login(output_text=""):
         return render_template('login.html', output_text=output_text)
 
 if __name__ == '__main__':
-	app.run()
+	app.run(debug = True)
