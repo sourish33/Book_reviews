@@ -35,15 +35,25 @@ def index():
         psw = request.form.get("psw")
         psw_repeat = request.form.get("psw-repeat")
         Users = meta.tables['Users']
-        ins = Users.insert().values(username = email, password = psw, lastname = lastname, firstname = firstname)
-        s.execute(ins)
-        s.commit()
-        output_text = "Hello {} {}! Thank you for registering.".format(firstname, lastname)
-        return render_template("login.html", output_text=output_text)
+        #check t see if that username exists
+        sel = Users.select().where(Users.c.username ==  email ) #OR .contains()
+        result = s.execute(sel).fetchall()
+        if len(result) == 0:# didn't find it
+            ins = Users.insert().values(username = email, password = psw, lastname = lastname, firstname = firstname)
+            s.execute(ins)
+            s.commit()
+            output_text = "Hello {} {}! Thank you for registering.".format(firstname, lastname)
+            return render_template("login.html", output_text=output_text)          
+        else:# oops it already exists. Don't add to the database
+            return render_template("index.html")
+
 
 @app.route('/login')
 def login(output_text=""):
-    return render_template('login.html', output_text=output_text)
+    if request.method == "GET":
+        return render_template('login.html', output_text=output_text)
+    else:
+        return render_template('login.html', output_text=output_text)
 
 if __name__ == '__main__':
 	app.run()
