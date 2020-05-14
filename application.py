@@ -23,13 +23,17 @@ meta = MetaData()
 
 @app.route("/", methods=["POST", "GET"])
 def index():
-    firstname = request.form.get("firstname")
-    lastname = request.form.get("lastname")
-    email = request.form.get("email")
-    psw = request.form.get("psw")
-    psw_repeat = request.form.get("psw-repeat")
-    output_text = "Hello {} {}, your email address is {} and your password is {}".format(firstname, lastname, email, psw)
-    return render_template("index.html", output_text=output_text)
+    if request.method == "GET":
+        output_text = ""
+        return render_template("index.html", output_text=output_text)
+    else:
+        firstname = request.form.get("firstname")
+        lastname = request.form.get("lastname")
+        email = request.form.get("email")
+        psw = request.form.get("psw")
+        psw_repeat = request.form.get("psw-repeat")
+        output_text = "Hello {} {}, your email address is {} and your password is {}".format(firstname, lastname, email, psw)
+        return render_template("index.html", output_text=output_text)
 
 @app.route('/login')
 def login():
