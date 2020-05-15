@@ -25,9 +25,12 @@
                 
             </div>
             
+            {%  if output_text != "" %}
+           
             <div class="col-sm-4" >
-                <p >You are logged in as Anupam Kher. <a href="#">Log out</a></p>
+                <p >{{output_text}}<br /> <a href="{{url_for('login')}}">Log out</a></p>
             </div>
+            {% endif %}
         </div>
         <div class="row">
             <div class="col-sm-8" >

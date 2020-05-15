@@ -81,7 +81,6 @@ def index():
             return render_template("login.html", output_text=output_text)          
         else:# oops it already exists. Don't add to the database
             flash('A user with that email address already exists. Please retry or log in ', "danger")
-            #return render_template("index.html/#email_location")
             return redirect(url_for('index',_anchor='error_msg_anchor'))
 
 
@@ -95,12 +94,22 @@ def login(output_text=""):
         email = request.form.get("email")
         psw = request.form.get("psw")
         flag = login_credentials_check(email, psw)
-        if flag:
+        if not flag:
+            flash('Username or password incorrect. Please try again ', "danger")
+            return redirect(url_for('login',_anchor='error_msg_anchor'))
+        else: 
             s.current_user = email
-        
-        output_text = "It is {} that your credentials are ok".format(flag)
-        return render_template('login.html', output_text=output_text)
-        
+            [_,userid, pwd, lname, fname] = list(search_exact(email, 'username','Users'))
+            output_text = "You are logged in as {} {}.".format(fname, lname)
+            return render_template('search_books.html', output_text=output_text)
+
+
+@app.route('/logout',methods=["POST", "GET"])
+def logout():
+    s.current_user = None
+    return render_template('login.html')
+
+
 
 if __name__ == '__main__':
 	app.run(debug = True)

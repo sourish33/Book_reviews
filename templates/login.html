@@ -34,6 +34,17 @@
             <div class="my_container">
                 <p class="h4">Please log in below:</p>
                 <hr>
+                <a id="error_msg_anchor"></a>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                  {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                    <!-- <strong>Title</strong> --> {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                 {% endwith %}
 
                 <label for="email"><b>Email/Username</b></label>
                 <input type="text" placeholder="Enter email or username" name="email" required>
