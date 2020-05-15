@@ -18,20 +18,42 @@ Session(app)
 # Set up database
 engine = create_engine(DATABASE_URL)
 s = scoped_session(sessionmaker(bind=engine))
+s.current_user = None
 meta = MetaData()
 meta.reflect(bind=engine)
+Users = meta.tables['Users']
+Books = meta.tables['Books']
+Reviews = meta.tables['Reviews']
+
+
+def search_exact(search_entry, col, table):
+    sql_string = "SELECT * from {} where {} = '{}'".format(table,col,search_entry)
+    print(sql_string)
+    result = s.execute(sql_string).fetchall()
+    s.commit()
+    if result:
+        return result[0]
+    else:
+        return None
+    
+def search_approx(search_entry, col, table):
+    sql_string = "SELECT * from {} where {} like '%{}%'".format(table,col,search_entry)
+    result = s.execute(sql_string).fetchall()
+    s.commit()
+    if result:
+        return result[0]
+    else:
+        return None
 
 def login_credentials_check(email_addy, pwd):
-    Users = meta.tables['Users']
     flag = False
-    sel = Users.select().where(Users.c.username == email_addy ) #OR .contains()
-    result = s.execute(sel).fetchall()
-    s.commit()
+    result = search_exact(email_addy, 'username', 'Users')
     if not result:
         return flag
     else:
-        flag = result[0][2]== pwd
-        return flag
+        flag = result[2]== pwd
+        return flag   
+
 
 
 
@@ -73,8 +95,12 @@ def login(output_text=""):
         email = request.form.get("email")
         psw = request.form.get("psw")
         flag = login_credentials_check(email, psw)
-        output_text = "It is {} that your credentials are ok".format(str(flag))
+        if flag:
+            s.current_user = email
+        
+        output_text = "It is {} that your credentials are ok".format(flag)
         return render_template('login.html', output_text=output_text)
+        
 
 if __name__ == '__main__':
 	app.run(debug = True)
