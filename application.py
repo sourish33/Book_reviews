@@ -21,6 +21,17 @@ s = scoped_session(sessionmaker(bind=engine))
 meta = MetaData()
 meta.reflect(bind=engine)
 
+def login_credentials_check(email_addy, pwd):
+    Users = meta.tables['Users']
+    flag = False
+    sel = Users.select().where(Users.c.username == email_addy ) #OR .contains()
+    result = s.execute(sel).fetchall()
+    if not result:
+        return flag
+    else:
+        flag = result[0][2]== pwd
+        return flag
+
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -51,11 +62,17 @@ def index():
             return redirect(url_for('index',_anchor='error_msg_anchor'))
 
 
-@app.route('/login')
+
+
+@app.route('/login',methods=["POST", "GET"])
 def login(output_text=""):
     if request.method == "GET":
         return render_template('login.html', output_text=output_text)
     else:
+        email = request.form.get("email")
+        psw = request.form.get("psw")
+        flag = login_credentials_check(email, psw)
+        output_text = "It is {} that your credentials are ok".format(str(flag))
         return render_template('login.html', output_text=output_text)
 
 if __name__ == '__main__':

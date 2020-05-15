@@ -30,7 +30,7 @@
     {% endif %}
 
 
-        <form action="action_page.php">
+    <form action="{{url_for('login')}}" method="post">
             <div class="my_container">
                 <p class="h4">Please log in below:</p>
                 <hr>
@@ -41,7 +41,7 @@
                 <label for="psw"><b>Password</b></label>
                 <input type="password" placeholder="Choose a Password" name="psw" required>
             
-                <button type="button" class="btn btn-primary btn-lg">Submit</button>
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
             </div>
     
     </form> 
