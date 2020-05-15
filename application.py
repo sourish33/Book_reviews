@@ -21,9 +21,9 @@ s = scoped_session(sessionmaker(bind=engine))
 s.current_user = None
 meta = MetaData()
 meta.reflect(bind=engine)
-Users = meta.tables['Users']
-Books = meta.tables['Books']
-Reviews = meta.tables['Reviews']
+# Users = meta.tables['Users']
+# Books = meta.tables['Books']
+# Reviews = meta.tables['Reviews']
 
 
 def search_exact(search_entry, col, table):
