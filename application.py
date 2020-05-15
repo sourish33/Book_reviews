@@ -26,6 +26,7 @@ def login_credentials_check(email_addy, pwd):
     flag = False
     sel = Users.select().where(Users.c.username == email_addy ) #OR .contains()
     result = s.execute(sel).fetchall()
+    s.commit()
     if not result:
         return flag
     else:
