@@ -113,9 +113,9 @@ def search_books():
     req = request.form
     isbn = req["isbn"]
     title = req["title"]
-    lastname = req["lastname"]
-    firstname = req["firstname"]
-    info = "you searched for isbn: {}, title: {}, and Author {} {}". format(isbn, title, firstname, lastname)
+    author = req["author"]
+    year = req["year"]
+    info = "you searched for isbn: {}, title: {},author {} publised in {}". format(isbn, title, author, year)
     return render_template('search_books.html', info=info)
 
 
