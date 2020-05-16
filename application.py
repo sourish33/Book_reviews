@@ -26,33 +26,42 @@ meta.reflect(bind=engine)
 # Reviews = meta.tables['Reviews']
 
 
+def tabelize(u):
+    return [list(row) for row in u]
+
+
+# exact search function
 def search_exact(search_entry, col, table):
+    '''returns database row as a list'''
     sql_string = "SELECT * from {} where {} = '{}'".format(table,col,search_entry)
     result = s.execute(sql_string).fetchall()
     s.commit()
-    if result:
-        return result[0]
-    else:
+    if not result:
         return None
+    else:
+        result = tabelize(result)
+        return result[0]
     
 def search_approx(search_entry, col, table):
+    '''returns database rows as a lists of lists'''
     sql_string = "SELECT * from {} where {} like '%{}%'".format(table,col,search_entry)
     result = s.execute(sql_string).fetchall()
     s.commit()
     if result:
-        return result[0]
+        return tabelize(result)
     else:
         return None
-
+    
+    
 def login_credentials_check(email_addy, pwd):
     flag = False
     result = search_exact(email_addy, 'username', 'Users')
+    s.commit()
     if not result:
         return flag
     else:
         flag = result[2]== pwd
         return flag   
-
 
 
 
@@ -97,7 +106,7 @@ def login(output_text=""):
             return redirect(url_for('login',_anchor='error_msg_anchor'))
         else: 
             s.current_user = email
-            [_,userid, pwd, lname, fname] = list(search_exact(email, 'username','Users'))
+            [_,userid, pwd, lname, fname] = search_exact(email, 'username','Users')
             output_text = "You are logged in as {} {}.".format(fname, lname)
             return render_template('search_books.html', output_text=output_text)
 
