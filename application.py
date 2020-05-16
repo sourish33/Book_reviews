@@ -18,7 +18,6 @@ Session(app)
 # Set up database
 engine = create_engine(DATABASE_URL)
 s = scoped_session(sessionmaker(bind=engine))
-s.current_user = None
 meta = MetaData()
 meta.reflect(bind=engine)
 Users = meta.tables['Users']
@@ -119,8 +118,8 @@ def login(output_text=""):
             flash('Username or password incorrect. Please try again ', "danger")
             return redirect(url_for('login',_anchor='error_msg_anchor'))
         else: 
-            s.current_user = email
-            [_,_, _, lname, fname] = search_exact(email, 'username','Users')
+            session["current_user"] = email
+            [_,_, _, lname, fname] = search_exact(session["current_user"], 'username','Users')
             who_dis_text = "You are logged in as {} {}.".format(fname, lname)
             info = ""
             results = []
@@ -129,14 +128,14 @@ def login(output_text=""):
 
 @app.route('/logout',methods=["POST"])
 def logout():
-    s.current_user = None
+    session["current_user"] = None
     return render_template('login.html')
 
 @app.route('/search_books',methods=["POST"])
 def search_books():
     info = ""
     results = []
-    [_,_, _, lname, fname] = search_exact(s.current_user, 'username','Users')
+    [_,_, _, lname, fname] = search_exact(session["current_user"], 'username','Users')
     who_dis_text = "You are logged in as {} {}.".format(fname, lname)
     req = request.form
     isbn = req["isbn"]
