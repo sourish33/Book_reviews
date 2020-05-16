@@ -48,12 +48,13 @@
                 {% endif %}
             </div>
         </div>
+        {%  if info != "" %}
         <div class="row mt-4">
             <div class="col-sm-12" >   
                  <h2>Results</h2>
             </div>
         </div>
-        {%  if who_dis_text != "" %}
+        
         <div class="row mb-4">
             <div class="col-sm-12" >  
                 <div><p class="h4">{{info}}</p> </div>
@@ -61,7 +62,7 @@
         </div>
         {% endif %}
 
-
+        {%  if info != "" %}
         <table class = "table table-bordered table-striped">
             <thead>
               <tr>
@@ -87,6 +88,7 @@
 
             </tbody>
           </table>
+          {% endif %}
     </div>
 
 </body>

@@ -122,7 +122,8 @@ def login(output_text=""):
             s.current_user = email
             [_,_, _, lname, fname] = search_exact(email, 'username','Users')
             who_dis_text = "You are logged in as {} {}.".format(fname, lname)
-            return render_template('search_books.html', who_dis_text=who_dis_text)
+            info = ""
+            return render_template('search_books.html', info=info, who_dis_text=who_dis_text)
 
 
 @app.route('/logout',methods=["POST"])
