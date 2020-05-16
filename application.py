@@ -141,7 +141,7 @@ def search_books():
     results = search_book_database(isbn, title, author, year)
     [_,_, _, lname, fname] = search_exact(s.current_user, 'username','Users')
     who_dis_text = "You are logged in as {} {}.".format(fname, lname)
-    info = "{} results found for this search". format(len(results))
+    info = "{} books found for this search". format(len(results))
     return render_template('search_books.html', info=info, who_dis_text=who_dis_text)
     
 
