@@ -62,30 +62,25 @@
         </div>
         {% endif %}
 
-        {%  if info != "" %}
+        {%  if info != "" and results!=[] %}
         <table class = "table table-bordered table-striped">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">isbn</th>
-                <th scope="col">Author</th>
                 <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Year</th>
               </tr>
             </thead>
             <tbody>
+              {% for line in results %}
               <tr>
-                <th scope="row">1</th>
-                <td>091432453</td>
-                <td>Jane Austen</td>
-                <td>Pride and Prejudice</td>
+                <td>{{line[1]}}</td>
+                <td>{{line[2]}}</td>
+                <td>{{line[3]}}</td>
+                <td>{{line[4]}}</td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>21345543</td>
-                <td>Jacob Thornton</td>
-                <td>Thornton's Adventures</td>
-              </tr>
-
+              {% endfor %}
             </tbody>
           </table>
           {% endif %}
