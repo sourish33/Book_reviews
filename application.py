@@ -67,19 +67,18 @@ def index():
         email = request.form.get("email")
         psw = request.form.get("psw")
         psw_repeat = request.form.get("psw-repeat")
-        Users = meta.tables['Users']
-        #check t see if that username exists
-        sel = Users.select().where(Users.c.username ==  email ) #OR .contains()
-        result = s.execute(sel).fetchall()
-        s.commit()
-        if len(result) == 0:# didn't find it
+
+        result = search_exact(email, 'username', 'Users')
+
+        if result is None:
+            Users = meta.tables['Users']
             ins = Users.insert().values(username = email, password = psw, lastname = lastname, firstname = firstname)
             s.execute(ins)
             s.commit()
             output_text = "Hello {} {}! Thank you for registering.".format(firstname, lastname)
             return render_template("login.html", output_text=output_text)          
-        else:# oops it already exists. Don't add to the database
-            flash('A user with that email address already exists. Please retry or log in ', "danger")
+        else:
+            flash('A user with that username/email already exists. Please retry or log in ', "danger")
             return redirect(url_for('index',_anchor='error_msg_anchor'))
 
 
