@@ -9,7 +9,7 @@
         <meta name="author" content="">
         <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     </head>
 
 <body>
@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="row">
+        <div class="row mt-4">
 		    <div class="col-sm-8" >
                 
             </div>
@@ -32,27 +32,60 @@
             </div>
             {% endif %}
         </div>
-        <div class="row">
+        <div class="row mt-4 mb-4">
             <div class="col-sm-8" >
                 <h2>Search for a book below</h2>
-                <div class="md-form active-cyan active-cyan-2 mb-3">
-                    <input class="form-control" type="text" placeholder="Search by ISBN" aria-label="Search">
-                </div>
-                <div class="md-form active-cyan active-cyan-2 mb-3">
-                    <input class="form-control" type="text" placeholder="Search by title" aria-label="Search">
-                </div>
-                <div class="md-form active-cyan active-cyan-2 mb-3">
-                    <input class="form-control" type="text" placeholder="Search by author last name" aria-label="Search">
-                </div>
-                <div class="md-form active-cyan active-cyan-2 mb-3">
-                    <input class="form-control" type="text" placeholder="Search by author first name" aria-label="Search">
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                <form action="{{url_for('search_books')}}" method="POST">
+                  <div class="md-form active-cyan active-cyan-2 mb-3">
+                    <input class="form-control" type="text" placeholder="Search by ISBN" name='isbn' aria-label="Search">
+                  </div>
+                  <div class="md-form active-cyan active-cyan-2 mb-3">
+                    <input class="form-control" type="text" placeholder="Search by Title" name='title' aria-label="Search">
+                  </div>
+                  <div class="md-form active-cyan active-cyan-2 mb-3">
+                    <input class="form-control" type="text" placeholder="Search by Author Last Name" name='lastname' aria-label="Search">
+                  </div>
+                  <div class="md-form active-cyan active-cyan-2 mb-3">
+                    <input class="form-control" type="text" placeholder="Search by Author First Name" name='firstname' aria-label="Search">
+                  </div>
+ 
+                  <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </form>
             </div>
             <div class="col-sm-4">
             </div>
         </div>
+        <h2>Search Results</h2>
+        {%  if output_text != "" %}
+        <div><p class="h3">{{info}}</p> </div>
+        {% endif %}
+        <table class = "table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">isbn</th>
+                <th scope="col">Author</th>
+                <th scope="col">Title</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>091432453</td>
+                <td>Jane Austen</td>
+                <td>Pride and Prejudice</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>21345543</td>
+                <td>Jacob Thornton</td>
+                <td>Thornton's Adventures</td>
+              </tr>
+
+            </tbody>
+          </table>
     </div>
+
 </body>
 </html>
 

@@ -28,7 +28,6 @@ meta.reflect(bind=engine)
 
 def search_exact(search_entry, col, table):
     sql_string = "SELECT * from {} where {} = '{}'".format(table,col,search_entry)
-    print(sql_string)
     result = s.execute(sql_string).fetchall()
     s.commit()
     if result:
@@ -108,6 +107,17 @@ def login(output_text=""):
 def logout():
     s.current_user = None
     return render_template('login.html')
+
+@app.route('/search_books',methods=["POST"])
+def search_books():
+    info = ""
+    req = request.form
+    isbn = req["isbn"]
+    title = req["title"]
+    lastname = req["lastname"]
+    firstname = req["firstname"]
+    info = "you searched for isbn: {}, title: {}, and Author {} {}". format(isbn, title, firstname, lastname)
+    return render_template('search_books.html', info=info)
 
 
 
