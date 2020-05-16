@@ -21,9 +21,9 @@ s = scoped_session(sessionmaker(bind=engine))
 s.current_user = None
 meta = MetaData()
 meta.reflect(bind=engine)
-# Users = meta.tables['Users']
-# Books = meta.tables['Books']
-# Reviews = meta.tables['Reviews']
+Users = meta.tables['Users']
+Books = meta.tables['Books']
+Reviews = meta.tables['Reviews']
 
 
 def tabelize(u):
@@ -63,6 +63,20 @@ def login_credentials_check(email_addy, pwd):
         flag = result[2]== pwd
         return flag   
 
+def search_book_database(isbn, title, author, year):
+    sql_string = "SELECT * from 'Books' where 1==1"
+    if isbn != "":
+        sql_string += " and isbn like '%{}%'".format(isbn)
+    if title != "":
+        sql_string += " and title like '%{}%'".format(title)
+    if author != "":
+        sql_string += " and author like '%{}%'".format(author)
+    if year != "":
+        sql_string += " and year == {}".format(year)
+
+    results = tabelize(s.execute(sql_string))
+    s.commit()
+    return results
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -124,7 +138,8 @@ def search_books():
     title = req["title"]
     author = req["author"]
     year = req["year"]
-    info = "you searched for isbn: {}, title: {},author {} publised in {}". format(isbn, title, author, year)
+    results = search_book_database(isbn, title, author, year)
+    info = "{} results found for this search". format(len(results))
     return render_template('search_books.html', info=info)
 
 
