@@ -135,16 +135,21 @@ def logout():
 @app.route('/search_books',methods=["POST"])
 def search_books():
     info = ""
+    results = []
+    [_,_, _, lname, fname] = search_exact(s.current_user, 'username','Users')
+    who_dis_text = "You are logged in as {} {}.".format(fname, lname)
     req = request.form
     isbn = req["isbn"]
     title = req["title"]
     author = req["author"]
     year = req["year"]
-    results = search_book_database(isbn, title, author, year)
-    [_,_, _, lname, fname] = search_exact(s.current_user, 'username','Users')
-    who_dis_text = "You are logged in as {} {}.".format(fname, lname)
-    info = "{} books found for this search". format(len(results))
-    return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
+    if all([x=='' for x in (isbn, title, author, year)]):
+        info = "Please fill in at least one of the fields above."
+        return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
+    else:
+        results = search_book_database(isbn, title, author, year)
+        info = "{} books found for this search". format(len(results))
+        return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
     
 
 
