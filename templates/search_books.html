@@ -20,18 +20,7 @@
         </div>
     </div>
     <div class="container">
-        <div class="row mt-4">
-		    <div class="col-sm-8" >
-                
-            </div>
-            
-            {%  if output_text != "" %}
-           
-            <div class="col-sm-4" >
-                <p >{{output_text}}<br /> <a href="{{url_for('login')}}">Log out</a></p>
-            </div>
-            {% endif %}
-        </div>
+
         <div class="row mt-4 mb-4">
             <div class="col-sm-8" >
                 <h2>Search for a book below</h2>
@@ -52,13 +41,17 @@
                   <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                 </form>
             </div>
-            <div class="col-sm-4">
+            
+            <div class="col-sm-4" >
+                {%  if who_dis_text != "" %}
+                <p >{{who_dis_text}}<br /> <a href="{{url_for('login')}}">Log out</a></p>
+                {% endif %}
             </div>
         </div>
         <div class="row mt-4">
             <h2></a>Search Results</h2>
         </div>
-        {%  if output_text != "" %}
+        {%  if who_dis_text != "" %}
         <div class="row">
             <div><p class="h4">{{info}}</p> </div>
         </div>

@@ -120,12 +120,12 @@ def login(output_text=""):
             return redirect(url_for('login',_anchor='error_msg_anchor'))
         else: 
             s.current_user = email
-            [_,userid, pwd, lname, fname] = search_exact(email, 'username','Users')
-            output_text = "You are logged in as {} {}.".format(fname, lname)
-            return render_template('search_books.html', output_text=output_text)
+            [_,_, _, lname, fname] = search_exact(email, 'username','Users')
+            who_dis_text = "You are logged in as {} {}.".format(fname, lname)
+            return render_template('search_books.html', who_dis_text=who_dis_text)
 
 
-@app.route('/logout',methods=["POST", "GET"])
+@app.route('/logout',methods=["POST"])
 def logout():
     s.current_user = None
     return render_template('login.html')
@@ -139,8 +139,10 @@ def search_books():
     author = req["author"]
     year = req["year"]
     results = search_book_database(isbn, title, author, year)
+    [_,_, _, lname, fname] = search_exact(s.current_user, 'username','Users')
+    who_dis_text = "You are logged in as {} {}.".format(fname, lname)
     info = "{} results found for this search". format(len(results))
-    return render_template('search_books.html', info=info)
+    return render_template('search_books.html', info=info, who_dis_text=who_dis_text)
     
 
 
