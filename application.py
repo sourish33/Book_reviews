@@ -1,4 +1,4 @@
-import os, json
+import os, json, requests
 
 from flask import Flask, render_template, request, session, flash, redirect, url_for
 from flask_session import Session
@@ -8,6 +8,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 app = Flask(__name__)
 #DATABASE_URL = 'postgresql+psycopg2://qlesouarqdzvpk:667a3563007212e9a1d9b5b478fa439f17a5e0e32d2eff602855fd0d399b3fb3@ec2-18-209-187-54.compute-1.amazonaws.com:5432/d10dsm9g49lrku';
 DATABASE_URL = 'sqlite:///books.db'
+API_KEY = 'XGCq2OkNCVFbu0qMbYaZg'
 
 
 # Configure session to use filesystem
@@ -152,7 +153,19 @@ def search_books():
     
 @app.route('/api/<isbn>',methods=["GET"])
 def api(isbn):
-    return render_template('api.html', isbn=isbn)
+    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "XGCq2OkNCVFbu0qMbYaZg", "isbns": "0316113573"})
+    res_dict = res.json()['books'][0]
+    book_details = search_book_database(isbn, "","","")
+    [_,_,title,author,year] = search_book_database(isbn, "","","")[0]
+    new_dict = {}
+    new_dict['isbn']=isbn
+    new_dict['title']=title
+    new_dict['author']=author
+    new_dict['year']=year
+    new_dict['review_count']=res_dict['work_ratings_count']
+    new_dict['average_score']=res_dict['average_rating']
+    json_object = json.dumps(new_dict)
+    return render_template('api.html', isbn=isbn, json_object=json_object)
 
 
 
