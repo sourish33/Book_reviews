@@ -63,9 +63,10 @@
         {% endif %}
 
         {%  if info != "" and results!=[] %}
-        <table class = "table table-bordered table-striped">
+        <table class = "table table-bordered table-striped w-auto">
             <thead>
               <tr>
+                <th scope="col">cover</th>
                 <th scope="col">isbn</th>
                 <th scope="col">Title</th>
                 <th scope="col">Author</th>
@@ -75,6 +76,7 @@
             <tbody>
               {% for line in results %}
               <tr>
+                <td style="padding: 0;"><img style="width:100%;" src="http://covers.openlibrary.org/b/isbn/{{line[1]}}-M.jpg" class="img-fluid"  onerror="this.onerror=null; this.src='/static/no-image.png'" alt="Fucktard" ></td>
                 <td>{{line[1]}}</td>
                 <td>{{line[2]}}</td>
                 <td>{{line[3]}}</td>
