@@ -1,4 +1,4 @@
-import os
+import os, json
 
 from flask import Flask, render_template, request, session, flash, redirect, url_for
 from flask_session import Session
@@ -150,6 +150,9 @@ def search_books():
         info = "{} books found for this search". format(len(results))
         return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
     
+@app.route('/api/<isbn>',methods=["GET"])
+def api(isbn):
+    return render_template('api.html', isbn=isbn)
 
 
 
