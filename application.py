@@ -155,8 +155,10 @@ def search_books():
 def api(isbn):
     res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "XGCq2OkNCVFbu0qMbYaZg", "isbns": "0316113573"})
     res_dict = res.json()['books'][0]
-    book_details = search_book_database(isbn, "","","")
-    [_,_,title,author,year] = search_book_database(isbn, "","","")[0]
+    try:
+        [_,_,title,author,year] = search_book_database(isbn, "","","")[0]
+    except:
+        return render_template('page_not_found.html', isbn=isbn)
     new_dict = {}
     new_dict['isbn']=isbn
     new_dict['title']=title
