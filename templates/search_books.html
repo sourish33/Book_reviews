@@ -68,7 +68,7 @@
               <tr>
                 <th scope="col"></th>
                 <th scope="col">ISBN</th>
-                <th scope="col">Title</th>
+                <th scope="col">Title </th>
                 <th scope="col">Author</th>
                 <th scope="col">Year</th>
               </tr>
@@ -78,7 +78,7 @@
               <tr>
                 <td style="padding: 0;"><img style="width:100%;" src="http://covers.openlibrary.org/b/isbn/{{line[1]}}-M.jpg" class="img-fluid"  onerror="this.onerror=null; this.src='/static/no-image.png'" alt="Fucktard" ></td>
                 <td>{{line[1]}}</td>
-                <td>{{line[2]}}</td>
+                <td><a href="{{url_for('bookpage', isbn = line[1] )}}">{{line[2]}}</a></td>
                 <td>{{line[3]}}</td>
                 <td>{{line[4]}}</td>
               </tr>
