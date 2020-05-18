@@ -78,6 +78,22 @@ def search_book_database(isbn, title, author, year):
     s.commit()
     return results
 
+def get_book_data(isbn):
+    new_dict = {}
+    try:
+        res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "XGCq2OkNCVFbu0qMbYaZg", "isbns": isbn})
+        res_dict = res.json()['books'][0]
+        [_,_,title,author,year] = search_exact(isbn, 'isbn', 'Books')
+    except:
+        return new_dict
+    new_dict['isbn']=isbn
+    new_dict['title']=title
+    new_dict['author']=author
+    new_dict['year']=year
+    new_dict['review_count']=res_dict['work_ratings_count']
+    new_dict['average_score']=res_dict['average_rating']
+    return new_dict
+
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -153,21 +169,12 @@ def search_books():
     
 @app.route('/api/<isbn>',methods=["GET"])
 def api(isbn):
-    res = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "XGCq2OkNCVFbu0qMbYaZg", "isbns": isbn})
-    res_dict = res.json()['books'][0]
-    try:
-        [_,_,title,author,year] = search_exact(isbn, 'isbn', 'Books')
-    except:
+    info_dict = get_book_data(isbn)
+    if info_dict:
+        json_object = json.dumps(info_dict)
+        return render_template('api.html', isbn=isbn, json_object=json_object)
+    else:
         return render_template('page_not_found.html', isbn=isbn)
-    new_dict = {}
-    new_dict['isbn']=isbn
-    new_dict['title']=title
-    new_dict['author']=author
-    new_dict['year']=year
-    new_dict['review_count']=res_dict['work_ratings_count']
-    new_dict['average_score']=res_dict['average_rating']
-    json_object = json.dumps(new_dict)
-    return render_template('api.html', isbn=isbn, json_object=json_object)
 
 
 
