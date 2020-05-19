@@ -60,3 +60,10 @@ a {
   color: orange;
 }
 
+#checkmark {
+  font-size:60px;
+  float: right;
+  margin:0;
+  padding:0;
+
+}

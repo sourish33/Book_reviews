@@ -10,7 +10,12 @@
         <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
         
+
+    <script type="text/javascript">
+            // your JavaScript
+    </script>
     </head>
 
 <body>
@@ -47,6 +52,7 @@
             <div class="col-sm-8"  >
                 <div class="card" style="background-color: azure;">
                     <div class="card-body">
+                       <span id= "checkmark"><i class="fa fa-check-square-o" style="font-size:48px;color:green"></i></span>
                       <h5 class="card-title">{{title}}</h5>
                       <h6 class="card-subtitle mb-2 text-muted">{{author}}, {{year}}</h6>
                       <h6 class="card-subtitle mb-2 text-muted">ISBN: {{isbn}}</h6>
