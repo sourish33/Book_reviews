@@ -176,8 +176,9 @@ def api(isbn):
     else:
         return render_template('page_not_found.html', isbn=isbn)
 
-@app.route('/bookpage/<isbn>',methods=["GET"])
+@app.route('/bookpage/<isbn>',methods=["GET", "POST"])
 def bookpage(isbn):
+
     info_dict = get_book_data(isbn)
     if not info_dict:
         return render_template('page_not_found.html', isbn=isbn)
@@ -189,6 +190,16 @@ def bookpage(isbn):
         year = info_dict['year']
         n_reviews = info_dict['review_count']
         n_ratings = info_dict['average_score']
+    if request.method == "GET":
+        return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
+    else:
+        req = request.form
+        rating = req["rating"]
+        review = req["review"]
+        print("Review: {} and rating {}".format(review,rating))
+        ins = Reviews.insert().values(username = session["current_user"], isbn = isbn, review = review, rating = rating )
+        s.execute(ins)
+        s.commit()
         return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
 
 
