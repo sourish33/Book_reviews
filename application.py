@@ -201,6 +201,12 @@ def api(isbn):
     else:
         return render_template('page_not_found.html', isbn=isbn)
 
+@app.route('/test',methods=["GET"])
+def test():
+    person = "Sourish"
+    number = 0
+    return render_template('test.html', person=person, number=number)
+
 @app.route('/bookpage/<isbn>',methods=["GET", "POST"])
 def bookpage(isbn):
 

@@ -11,25 +11,6 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     
-        
-
-    <script type="text/javascript">
-
-
-    // function myFunction() {
-    //         let rating = document.getElementById("rating_form").value;
-    //         let review = document.getElementById("review_form").value;
-    //         const button = document.getElementById("submit_button");
-
-
-    //         if (rating !== "" && review !== "") {
-    //             document.getElementById("checkmark").style.visibility = "visible";
-    //             button.disabled = true;
-    //             }
-    //     }
-
-
-    // </script>
     </head>
 
 <body>
@@ -88,6 +69,14 @@
                   </div>
             </div>
         </div>
+        {%  if not all_reviews %}
+
+        <div class="row">
+            <div class="col mt-4 mb-4" >
+                <h1>No reviews yet. Be the first to leave a review!</h1>
+            </div>
+        </div>
+        {% else %}
         <div class="row">
             <div class="col mt-4" >
                 <h1>Reviews from our readers:</h1>
@@ -95,7 +84,7 @@
         </div>
         {% for review_entry in all_reviews[::-1] %}
         <div class="row">        
-            <div class="col mt-4" >
+            <div class="col" >
                      <div class="card card_style">
                         <div class="card-body">
                             <h5 class="card-title"><strong>{{review_entry[1]}}</strong> wrote:</h5>
@@ -105,6 +94,7 @@
             </div>
         </div>
         {% endfor %}
+        {% endif %}
         
     </div>
 
