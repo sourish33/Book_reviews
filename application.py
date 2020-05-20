@@ -101,6 +101,12 @@ def did_they_review_this(reviewer, book_isbn):
     s.commit()
     return bool(result)
 
+def get_reviews(book_isbn):
+    sql_command = "SELECT * from Reviews where isbn == '{}'".format(book_isbn)
+    result = s.execute(sql_command).fetchall()
+    s.commit()
+    return result
+
 
 @app.route("/", methods=["POST", "GET"])
 def index():
