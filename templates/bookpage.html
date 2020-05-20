@@ -16,20 +16,20 @@
     <script type="text/javascript">
 
 
-    function myFunction() {
-            let rating = document.getElementById("rating_form").value;
-            let review = document.getElementById("review_form").value;
-            const button = document.getElementById("submit_button");
+    // function myFunction() {
+    //         let rating = document.getElementById("rating_form").value;
+    //         let review = document.getElementById("review_form").value;
+    //         const button = document.getElementById("submit_button");
 
 
-            if (rating !== "" && review !== "") {
-                document.getElementById("checkmark").style.visibility = "visible";
-                button.disabled = true;
-                }
-        }
+    //         if (rating !== "" && review !== "") {
+    //             document.getElementById("checkmark").style.visibility = "visible";
+    //             button.disabled = true;
+    //             }
+    //     }
 
 
-    </script>
+    // </script>
     </head>
 
 <body>
@@ -67,7 +67,7 @@
             <div class="col-sm-8"  >
                 <div class="card card_style" >
                     <div class="card-body">
-                       <span id= "checkmark"><i class="fa fa-check-square-o" style="font-size:48px;color:green"></i></span>
+                       <span id= "checkmark" visibility: hidden;><i class="fa fa-check-square-o" style="font-size:48px;color:green"></i></span>
                       <h5 class="card-title">{{title}}</h5>
                       <h6 class="card-subtitle mb-2 text-muted">{{author}}, {{year}}</h6>
                       <h6 class="card-subtitle mb-2 text-muted">ISBN: {{isbn}}</h6>
@@ -79,9 +79,9 @@
                             <label for="exampleFormControlTextarea4">Leave a Review:</label>
                             <textarea class="form-control" id="review_form" rows="10" name = "review"></textarea>
                         </div>
-                            <button id="submit_button" type="submit" class="btn btn-primary btn-raised" onclick="myFunction()">Submit</button>
+                            <button id="submit_button" type="submit" class="btn btn-primary btn-raised">Submit</button>
                      </form>
-                     <p id = "sub">{{submitted}}</p>
+                     
                       <!-- <a href="#" class="card-link">Card link</a> -->
 
                     </div>

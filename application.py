@@ -215,25 +215,18 @@ def bookpage(isbn):
 
     if request.method == "GET":
         if did_they_review_this(session["current_user"], isbn):
-            submitted = "yes"
+            return render_template('bookpage_submitted.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
         else:
-            submitted = "no"
-        return render_template('bookpage.html', submitted= submitted, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
+            return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
+
     else:
-        if did_they_review_this(session["current_user"], isbn):
-            submitted = "yes"
-            return render_template('bookpage.html',submitted= submitted,  isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
-
-        else:
-            req = request.form
-            rating = req["rating"]
-            review = req["review"]
-            ins = Reviews.insert().values(username = session["current_user"], isbn = isbn, review = review, rating = rating )
-            s.execute(ins)
-            s.commit()
-            submitted = "yes"
-            return render_template('bookpage.html', submitted= submitted, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
-
+        req = request.form
+        rating = req["rating"]
+        review = req["review"]
+        ins = Reviews.insert().values(username = session["current_user"], isbn = isbn, review = review, rating = rating )
+        s.execute(ins)
+        s.commit()
+        return render_template('bookpage_submitted.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
 
 if __name__ == '__main__':
 	app.run(debug = True)
