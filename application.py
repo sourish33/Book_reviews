@@ -166,6 +166,7 @@ def logout():
 def search_books():
     info = ""
     results = []
+    reviewed_or_not = []
     [_,_, _, lname, fname] = search_exact(session["current_user"], 'username','Users')
     who_dis_text = "You are logged in as {} {}.".format(fname, lname)
     req = request.form
@@ -175,12 +176,13 @@ def search_books():
     year = req["year"]
     if all([x=='' for x in (isbn, title, author, year)]):
         info = "Please fill in at least one of the fields above."
-        return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
+        return render_template('search_books.html', info=info, results = results, reviewed_or_not = reviewed_or_not, who_dis_text=who_dis_text)
     else:
         results = search_book_database(isbn, title, author, year)
+        reviewed_or_not=[int(did_they_review_this(session["current_user"], row[1])) for row in results]
         session["current_results"] = results
         info = "{} books found for this search". format(len(results))
-        return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
+        return render_template('search_books.html', info=info, results = results, reviewed_or_not = reviewed_or_not, who_dis_text=who_dis_text)
 
 @app.route('/back_to_search', methods=["GET"])
 def back_to_search():

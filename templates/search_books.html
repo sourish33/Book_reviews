@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     </head>
@@ -71,6 +71,7 @@
                 <th scope="col">Title </th>
                 <th scope="col">Author</th>
                 <th scope="col">Year</th>
+                <th scope="col">Reviewed</th>
               </tr>
             </thead>
             <tbody>
@@ -81,6 +82,7 @@
                 <td><a href="{{url_for('bookpage', isbn = line[1] )}}">{{line[2]}}</a></td>
                 <td>{{line[3]}}</td>
                 <td>{{line[4]}}</td>
+                <td><i id = "vanish-{{ reviewed_or_not[results.index(line)] }}" class="fa fa-check-square-o" style="color:green"></i></td>
               </tr>
               {% endfor %}
             </tbody>
