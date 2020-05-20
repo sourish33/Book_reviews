@@ -93,7 +93,7 @@
                 <h1>Reviews from our readers:</h1>
             </div>
         </div>
-        {% for review_entry in all_reviews %}
+        {% for review_entry in all_reviews[::-1] %}
         <div class="row">        
             <div class="col mt-4" >
                      <div class="card card_style">
