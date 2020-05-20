@@ -14,7 +14,21 @@
         
 
     <script type="text/javascript">
-            // your JavaScript
+
+
+    function myFunction() {
+            let rating = document.getElementById("rating_form").value;
+            let review = document.getElementById("review_form").value;
+            const button = document.getElementById("submit_button");
+
+
+            if (rating !== "" && review !== "") {
+                document.getElementById("checkmark").style.visibility = "visible";
+                button.disabled = true;
+                }
+        }
+
+
     </script>
     </head>
 
@@ -60,13 +74,16 @@
                       <h6 class="card-subtitle mb-2 text-muted">Goodreads Reviews: {{n_reviews}}</h6>
                       <h6 class="card-subtitle mb-2 text-muted">Average Goodreads Rating: {{n_ratings}}</h6>
                       <form action="{{url_for('bookpage', isbn = isbn )}}" method="POST">
-                           Rate this book: <input type="number" min="1" max="5" name = "rating", value = {{rating}}>
+                           Rate this book: <input id= "rating_form" type="number" min="1" max="5" name = "rating", value = {{rating}}>
                         <div class="form-group purple-border">
                             <label for="exampleFormControlTextarea4">Leave a Review:</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea4" rows="10" name = "review"></textarea>
+                            <textarea class="form-control" id="review_form" rows="10" name = "review"></textarea>
                         </div>
-                            <button type="submit" class="btn btn-primary btn-raised">Submit</button>
+                            <button id="submit_button" type="submit" class="btn btn-primary btn-raised" onclick="myFunction()">Submit</button>
                      </form>
+                     <!-- <p id = "a"></p>
+                     <p id = "b"></p>
+                     <p id = "c"></p> -->
                       <!-- <a href="#" class="card-link">Card link</a> -->
 
                     </div>

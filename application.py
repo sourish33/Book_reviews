@@ -95,6 +95,12 @@ def get_book_data(isbn):
     new_dict['average_score']=res_dict['average_rating']
     return new_dict
 
+def did_they_review_this(reviewer, book_isbn):
+    sql_command = "SELECT * from Reviews where username == '{}' and isbn == '{}'".format(reviewer,book_isbn)
+    result = s.execute(sql_command).fetchall()
+    s.commit()
+    return bool(result)
+
 
 @app.route("/", methods=["POST", "GET"])
 def index():
@@ -192,6 +198,8 @@ def api(isbn):
 @app.route('/bookpage/<isbn>',methods=["GET", "POST"])
 def bookpage(isbn):
 
+    rating = ""
+    review = ""
     info_dict = get_book_data(isbn)
     if not info_dict:
         return render_template('page_not_found.html', isbn=isbn)
@@ -203,18 +211,21 @@ def bookpage(isbn):
         year = info_dict['year']
         n_reviews = info_dict['review_count']
         n_ratings = info_dict['average_score']
-        rating = ""
-        review = ""
+
     if request.method == "GET":
         return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
     else:
-        req = request.form
-        rating = req["rating"]
-        review = req["review"]
-        ins = Reviews.insert().values(username = session["current_user"], isbn = isbn, review = review, rating = rating )
-        s.execute(ins)
-        s.commit()
-        return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
+        if did_they_review_this(session["current_user"], isbn):
+            return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
+
+        else:
+            req = request.form
+            rating = req["rating"]
+            review = req["review"]
+            ins = Reviews.insert().values(username = session["current_user"], isbn = isbn, review = review, rating = rating )
+            s.execute(ins)
+            s.commit()
+            return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
 
 
 if __name__ == '__main__':
