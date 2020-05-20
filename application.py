@@ -147,6 +147,7 @@ def login(output_text=""):
 @app.route('/logout',methods=["POST"])
 def logout():
     session["current_user"] = ""
+    session["current_results"] = []
     return render_template('login.html')
 
 @app.route('/search_books',methods=["POST"])
@@ -165,8 +166,19 @@ def search_books():
         return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
     else:
         results = search_book_database(isbn, title, author, year)
+        session["current_results"] = results
         info = "{} books found for this search". format(len(results))
         return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
+
+@app.route('/back_to_search', methods=["GET"])
+def back_to_search():
+    [_,_, _, lname, fname] = search_exact(session["current_user"], 'username','Users')
+    who_dis_text = "You are logged in as {} {}.".format(fname, lname)
+    results = session["current_results"] 
+    info = "{} books found for this search". format(len(results))
+    return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
+
+
     
 @app.route('/api/<isbn>',methods=["GET"])
 def api(isbn):
