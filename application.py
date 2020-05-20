@@ -146,8 +146,7 @@ def login(output_text=""):
 
 @app.route('/logout',methods=["POST"])
 def logout():
-    session["current_user"] = None
-    session["current_search_results"] = []
+    session["current_user"] = ""
     return render_template('login.html')
 
 @app.route('/search_books',methods=["POST"])
