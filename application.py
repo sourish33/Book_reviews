@@ -26,6 +26,7 @@ Books = meta.tables['Books']
 Reviews = meta.tables['Reviews']
 
 
+
 def tabelize(u):
     return [list(row) for row in u]
 
@@ -146,6 +147,7 @@ def login(output_text=""):
 @app.route('/logout',methods=["POST"])
 def logout():
     session["current_user"] = None
+    session["current_search_results"] = []
     return render_template('login.html')
 
 @app.route('/search_books',methods=["POST"])
@@ -190,17 +192,18 @@ def bookpage(isbn):
         year = info_dict['year']
         n_reviews = info_dict['review_count']
         n_ratings = info_dict['average_score']
+        rating = ""
+        review = ""
     if request.method == "GET":
-        return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
+        return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
     else:
         req = request.form
         rating = req["rating"]
         review = req["review"]
-        print("Review: {} and rating {}".format(review,rating))
         ins = Reviews.insert().values(username = session["current_user"], isbn = isbn, review = review, rating = rating )
         s.execute(ins)
         s.commit()
-        return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
+        return render_template('bookpage.html', isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text, rating=rating, review=review)
 
 
 if __name__ == '__main__':

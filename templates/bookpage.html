@@ -59,7 +59,7 @@
                       <h6 class="card-subtitle mb-2 text-muted">Goodreads Reviews: {{n_reviews}}</h6>
                       <h6 class="card-subtitle mb-2 text-muted">Average Goodreads Rating: {{n_ratings}}</h6>
                       <form action="{{url_for('bookpage', isbn = isbn )}}" method="POST">
-                           Rate this book: <input type="number" min="1" max="5" name = "rating">
+                           Rate this book: <input type="number" min="1" max="5" name = "rating", value = {{rating}}>
                         <div class="form-group purple-border">
                             <label for="exampleFormControlTextarea4">Leave a Review:</label>
                             <textarea class="form-control" id="exampleFormControlTextarea4" rows="10" name = "review"></textarea>
