@@ -56,6 +56,10 @@ a {
   margin-top:10%;
 }
 
+.card_style {
+  background-color: azure!important;
+}
+
 .checked {
   color: orange;
 }
