@@ -227,15 +227,16 @@ def bookpage(isbn):
         year = info_dict['year']
         n_reviews = info_dict['review_count']
         n_ratings = info_dict['average_score']
+        rounded_rating = round(float(n_ratings))
         
 
     if request.method == "GET":
         if did_they_review_this(session["current_user"], isbn):
             all_reviews = get_reviews(isbn)
-            return render_template('bookpage_submitted.html', all_reviews=all_reviews, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
+            return render_template('bookpage_submitted.html', rounded_rating = rounded_rating, all_reviews=all_reviews, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
         else:
             all_reviews = get_reviews(isbn)
-            return render_template('bookpage.html',  all_reviews=all_reviews, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
+            return render_template('bookpage.html', rounded_rating = rounded_rating, all_reviews=all_reviews, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
 
     else:
         req = request.form
@@ -245,7 +246,7 @@ def bookpage(isbn):
         s.execute(ins)
         s.commit()
         all_reviews = get_reviews(isbn)
-        return render_template('bookpage_submitted.html',  all_reviews=all_reviews, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
+        return render_template('bookpage_submitted.html', rounded_rating = rounded_rating, all_reviews=all_reviews, isbn=isbn, title=title, author=author, year=year, n_reviews=n_reviews, n_ratings=n_ratings, who_dis_text=who_dis_text)
 
 if __name__ == '__main__':
 	app.run(debug = True)
