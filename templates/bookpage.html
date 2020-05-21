@@ -34,11 +34,7 @@
                 <div class="card card_style">
                     <img class="card-img-top my_card_image img-fluid" src="http://covers.openlibrary.org/b/isbn/{{isbn}}-M.jpg"  alt="Fucktard" >
                     <div class="card-body">
-                      <p class="card-text" style="text-align: center;"><span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span> </span>
-                        <span class="fa fa-star"></span></p>
+                      <p class="4-stars card-text" style="text-align: center;"></p>
                     </div>
                   </div>
                   <!-- <img class="card-img-top my_card_image img-fluid" src="http://covers.openlibrary.org/b/isbn/0765354063-M.jpg"  alt="Fucktard" > -->
@@ -97,6 +93,39 @@
         {% endif %}
         
     </div>
+
+    
+    <script>
+            let opening_p="\<p\>"
+            let closing_p = "\<\/p\>"
+            let star = "\<span class=\"fa fa-star\"\>\<\/span\>"
+            let c_star ="\<span class=\"fa fa-star checked\"\>\<\/span\>"
+            
+            
+            colored_stars(1)
+            colored_stars(2)
+            colored_stars(3)
+            colored_stars(4)
+            colored_stars(5)
+            
+           
+            function colored_stars(n) {
+                let elms = document.getElementsByClassName(n.toString()+"-stars");
+                inner_str = opening_p;
+                for(let i = 0; i < n; i++) {
+                    inner_str += c_star;
+                    }
+                for(let i = 0; i<5-n; i++) {
+                    inner_str += star;
+                    }
+                inner_str += closing_p;
+                
+                for(let i = 0; i < elms.length; i++) {
+                    elms[i].innerHTML = inner_str;
+                    } 
+            }
+            
+    </script>
 
 </body>
 </html>
