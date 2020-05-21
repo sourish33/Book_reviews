@@ -189,8 +189,9 @@ def back_to_search():
     [_,_, _, lname, fname] = search_exact(session["current_user"], 'username','Users')
     who_dis_text = "You are logged in as {} {}.".format(fname, lname)
     results = session["current_results"] 
+    reviewed_or_not=[int(did_they_review_this(session["current_user"], row[1])) for row in results]
     info = "{} books found for this search". format(len(results))
-    return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
+    return render_template('search_books.html', info=info, results = results, reviewed_or_not = reviewed_or_not, who_dis_text=who_dis_text)
 
 
     
