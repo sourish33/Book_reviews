@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<!doctype html>
+<html>
+    <head>
+        <title>Book Page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+        
+
+ 
+    </head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Best Book Reviews</h1>
+          <p class="lead">Review and rate your favorite books here</p>
+        </div>
+    </div>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 " >
+               <p style="float: left;">{{who_dis_text}} <a href="{{url_for('login')}}">Log out</a></p> 
+               <span style="float: right;"><a href="{{url_for('back_to_search')}}">Back to Search Results</a></span> 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4" >
+                <div class="card card_style">
+                    <img class="card-img-top my_card_image img-fluid" src="http://covers.openlibrary.org/b/isbn/{{isbn}}-M.jpg"  alt="Fucktard" >
+                    <div class="card-body">
+                        <p class="{{rounded_rating}}-stars card-text" style="text-align: center;"></p>
+                    </div>
+                  </div>
+                  <!-- <img class="card-img-top my_card_image img-fluid" src="http://covers.openlibrary.org/b/isbn/0765354063-M.jpg"  alt="Fucktard" > -->
+                
+            </div>
+            
+            <div class="col-sm-8"  >
+                <div class="card card_style" >
+                    <div class="card-body">
+                       <span id= "checkmark" style="visibility: visible;"><i class="fa fa-check-square-o" style="font-size:48px;color:green"></i></span>
+                      <h5 class="card-title">{{title}}</h5>
+                      <h6 class="card-subtitle mb-2 text-muted">{{author}}, {{year}}</h6>
+                      <h6 class="card-subtitle mb-2 text-muted">ISBN: {{isbn}}</h6>
+                      <h6 class="card-subtitle mb-2 text-muted">Goodreads Reviews: {{n_reviews}}</h6>
+                      <h6 class="card-subtitle mb-2 text-muted">Average Goodreads Rating: {{n_ratings}}</h6>
+
+                     <p class = "h3">You have submitted a review for this book</p>
+                      <!-- <a href="#" class="card-link">Card link</a> -->
+
+                    </div>
+                  </div>
+            </div>
+        </div>
+        {%  if not all_reviews %}
+
+        <div class="row">
+            <div class="col mt-4 mb-4" >
+                <h1>No reviews yet. Be the first to leave a review!</h1>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col mt-4" >
+                <h1>Reviews from our readers:</h1>
+            </div>
+        </div>
+        {% for review_entry in all_reviews[::-1] %}
+        <div class="row">        
+            <div class="col" >
+                     <div class="card card_style">
+                        <div class="card-body">
+                            <p class="{{review_entry[4]}}-stars card-text" style="float: right;"></p>
+                            <h5 class="card-title"><strong>{{review_entry[1]}}</strong> wrote:</h5>
+                            <p>{{review_entry[3]}}</p>
+                        </div>
+                      </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        
+    </div>
+    <script>
+        let opening_p="\<p\>"
+        let closing_p = "\<\/p\>"
+        let star = "\<span class=\"fa fa-star\"\>\<\/span\>"
+        let c_star ="\<span class=\"fa fa-star checked\"\>\<\/span\>"
+        
+        
+        colored_stars(1)
+        colored_stars(2)
+        colored_stars(3)
+        colored_stars(4)
+        colored_stars(5)
+        
+       
+        function colored_stars(n) {
+            let elms = document.getElementsByClassName(n.toString()+"-stars");
+            inner_str = opening_p;
+            for(let i = 0; i < n; i++) {
+                inner_str += c_star;
+                }
+            for(let i = 0; i<5-n; i++) {
+                inner_str += star;
+                }
+            inner_str += closing_p;
+            
+            for(let i = 0; i < elms.length; i++) {
+                elms[i].innerHTML = inner_str;
+                } 
+        }
+        
+    </script>
+</body>
+</html>

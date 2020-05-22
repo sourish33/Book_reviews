@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!doctype html>
+<html>
+    <head>
+        <title>Register</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    </head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Best Book Reviews</h1>
+          <p class="lead">Review and rate your favorite books here</p>
+        </div>
+      </div>
+    <div class="container">
+    <!-- {% block div %}  
+    {% endblock %}
+    {% block form %}
+    {% endblock %} -->
+
+    {%  if output_text != "" %}
+    <div><p class="h3">{{output_text}}</p> </div>
+    {% endif %}
+
+
+    <form action="{{url_for('login')}}" method="post">
+            <div class="my_container">
+                <p class="h4">Please log in below:</p>
+                <hr>
+                <a id="error_msg_anchor"></a>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                  {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                    <!-- <strong>Title</strong> --> {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                 {% endwith %}
+
+                <label for="email"><b>Email/Username</b></label>
+                <input type="text" placeholder="Enter email or username" name="email" required>
+            
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter your password" name="psw" required>
+            
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+    
+    </form> 
+    <div class="my_container signin">
+        <p>Don't have an account? <a href="{{url_for('index')}}">Register</a>.</p>
+    </div>
+    </div>
+</body>
+</html>
+

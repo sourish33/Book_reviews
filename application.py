@@ -29,16 +29,15 @@ Reviews = meta.tables['Reviews']
 
 def tabelize(u):
     return [list(row) for row in u]
-
-
-# exact search function
-def tabelize(u):
-    return [list(row) for row in u]
+def remove_apostrophy(a):
+    a = a.replace("\'", "\'\'")
+    return a
 
 
 # exact search function
 def search_exact(search_entry, col, table):
     result =[]
+    search_entry = remove_apostrophy(search_entry)
     sql_string = 'SELECT * from "{}" where "{}" like \'%{}%\' '.format(table,col,search_entry)
     try:
         result = s.execute(sql_string).fetchall()
@@ -54,7 +53,8 @@ def search_exact(search_entry, col, table):
     
 def search_approx(search_entry, col, table):
     result =[]
-    sql_string = 'SELECT * from "{}" where "{}" like \'%{}%\' '.format(table,col,search_entry)
+    search_entry = remove_apostrophy(search_entry)
+    sql_string = 'SELECT * from "{}" where "{}" ilike \'%{}%\' '.format(table,col,search_entry)
     try:
         result = s.execute(sql_string).fetchall()
     except:
@@ -77,13 +77,15 @@ def login_credentials_check(email_addy, pwd):
         return flag   
 
 def search_book_database(isbn, title, author, year):
+    title = remove_apostrophy(title)
+    author = remove_apostrophy(author)
     sql_string = 'SELECT * from "Books" where 1=1'
     if isbn != "":
         sql_string += ' and "isbn" like \'%{}%\' '.format(isbn)
     if title != "":
-        sql_string += ' and "title" like \'%{}%\' '.format(title)
+        sql_string += ' and "title" ilike \'%{}%\' '.format(title)
     if author != "":
-        sql_string += ' and "author" like \'%{}%\' '.format(author)
+        sql_string += ' and "author" ilike \'%{}%\' '.format(author)
     if year != "":
         sql_string += ' and "year" = {}'.format(year)
 

@@ -1,3 +1,5 @@
 *.db
 *.ipynb 
 *.csv
+*_pycache*/
+flask_session/
