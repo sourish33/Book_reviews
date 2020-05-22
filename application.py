@@ -6,8 +6,8 @@ from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
-#DATABASE_URL = 'postgresql+psycopg2://qlesouarqdzvpk:667a3563007212e9a1d9b5b478fa439f17a5e0e32d2eff602855fd0d399b3fb3@ec2-18-209-187-54.compute-1.amazonaws.com:5432/d10dsm9g49lrku';
-DATABASE_URL = 'sqlite:///books.db'
+DATABASE_URL = 'postgres://qlesouarqdzvpk:667a3563007212e9a1d9b5b478fa439f17a5e0e32d2eff602855fd0d399b3fb3@ec2-18-209-187-54.compute-1.amazonaws.com:5432/d10dsm9g49lrku'
+#DATABASE_URL = 'sqlite:///books.db'
 API_KEY = 'XGCq2OkNCVFbu0qMbYaZg'
 
 
@@ -32,10 +32,19 @@ def tabelize(u):
 
 
 # exact search function
+def tabelize(u):
+    return [list(row) for row in u]
+
+
+# exact search function
 def search_exact(search_entry, col, table):
-    '''returns database row as a list'''
-    sql_string = "SELECT * from {} where {} = '{}'".format(table,col,search_entry)
-    result = s.execute(sql_string).fetchall()
+    result =[]
+    sql_string = 'SELECT * from "{}" where "{}" like \'%{}%\' '.format(table,col,search_entry)
+    try:
+        result = s.execute(sql_string).fetchall()
+    except:
+        print("SQL querry failed")
+        
     s.commit()
     if not result:
         return None
@@ -44,9 +53,12 @@ def search_exact(search_entry, col, table):
         return result[0]
     
 def search_approx(search_entry, col, table):
-    '''returns database rows as a lists of lists'''
-    sql_string = "SELECT * from {} where {} like '%{}%'".format(table,col,search_entry)
-    result = s.execute(sql_string).fetchall()
+    result =[]
+    sql_string = 'SELECT * from "{}" where "{}" like \'%{}%\' '.format(table,col,search_entry)
+    try:
+        result = s.execute(sql_string).fetchall()
+    except:
+        print("SQL querry failed")
     s.commit()
     if result:
         return tabelize(result)
@@ -65,19 +77,27 @@ def login_credentials_check(email_addy, pwd):
         return flag   
 
 def search_book_database(isbn, title, author, year):
-    sql_string = "SELECT * from 'Books' where 1==1"
+    sql_string = 'SELECT * from "Books" where 1=1'
     if isbn != "":
-        sql_string += " and isbn like '%{}%'".format(isbn)
+        sql_string += ' and "isbn" like \'%{}%\' '.format(isbn)
     if title != "":
-        sql_string += " and title like '%{}%'".format(title)
+        sql_string += ' and "title" like \'%{}%\' '.format(title)
     if author != "":
-        sql_string += " and author like '%{}%'".format(author)
+        sql_string += ' and "author" like \'%{}%\' '.format(author)
     if year != "":
-        sql_string += " and year == {}".format(year)
+        sql_string += ' and "year" = {}'.format(year)
 
     results = tabelize(s.execute(sql_string))
     s.commit()
     return results
+
+def did_they_review_this(reviewer, book_isbn):
+    result=False
+    sql_command = 'SELECT * from "Reviews" where "username" = \'{}\' and isbn = \'{}\' '.format(reviewer,book_isbn)
+    result = s.execute(sql_command).fetchall()
+    s.commit()
+    return bool(result)  
+    
 
 def get_book_data(isbn):
     new_dict = {}
@@ -95,14 +115,10 @@ def get_book_data(isbn):
     new_dict['average_score']=res_dict['average_rating']
     return new_dict
 
-def did_they_review_this(reviewer, book_isbn):
-    sql_command = "SELECT * from Reviews where username == '{}' and isbn == '{}'".format(reviewer,book_isbn)
-    result = s.execute(sql_command).fetchall()
-    s.commit()
-    return bool(result)
+
 
 def get_reviews(book_isbn):
-    sql_command = "SELECT * from Reviews where isbn == '{}'".format(book_isbn)
+    sql_command = 'SELECT * from "Reviews" where "isbn" = \'{}\' '.format(book_isbn)
     result = s.execute(sql_command).fetchall()
     s.commit()
     return result
