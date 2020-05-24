@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!doctype html>
+<html>
+    <head>
+        <title>Register</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Best Book Reviews</h1>
+          <p class="lead">Review and rate your favorite books here</p>
+        </div>
+      </div>
+    <div class="container">
+      <p style="float: right;">Already have an account? <a href="{{url_for('login')}}">Sign in</a>.</p>
+    <!-- {% block div %}  
+    {% endblock %}
+    {% block form %}
+    {% endblock %} -->
+
+
+    <form action="{{url_for('register')}}" method="post">
+            <div class="form-group my_container">
+
+                <h2>Register</h2>
+                <hr>
+                <a id="error_msg_anchor"></a>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                  {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">
+                    <!-- <strong>Title</strong> --> {{ message }}
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                 {% endwith %}
+
+                <label for="firstname"><b>First Name</b></label>
+                <input type="text" placeholder="Enter First Name" name="firstname" required>
+
+                <label for="lastname"><b>Last Name</b></label>
+                <input type="text" placeholder="Enter Last Name" name="lastname" required>
+                
+                <label for="email"><b>Email or Username</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+
+            
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Choose a Password" name="psw" required>
+            
+                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat"  required>
+                <hr>
+            
+                <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+            </div>
+    </form> 
+
+
+    </div>
+</body>
+</html>
+

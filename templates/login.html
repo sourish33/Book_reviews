@@ -7,9 +7,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" type= "text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">  
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
 
 <body>
@@ -20,6 +20,7 @@
         </div>
       </div>
     <div class="container">
+      <p style="float: right;">Don't have an account? <a href="{{url_for('register')}}">Register</a>.</p>
     <!-- {% block div %}  
     {% endblock %}
     {% block form %}
@@ -31,7 +32,7 @@
 
 
     <form action="{{url_for('login')}}" method="post">
-            <div class="form-group">
+            <div class="form-group my_container">
                 <p class="h4">Please log in below:</p>
                 <hr>
                 <a id="error_msg_anchor"></a>
@@ -56,9 +57,7 @@
             </div>
     
     </form> 
-    <div class= signin">
-        <p>Don't have an account? <a href="{{url_for('index')}}">Register</a>.</p>
-    </div>
+
     </div>
 </body>
 </html>

@@ -125,12 +125,17 @@ def get_reviews(book_isbn):
     s.commit()
     return result
 
-
 @app.route("/", methods=["POST", "GET"])
 def index():
+    return render_template("index.html")
+
+
+
+@app.route("/register", methods=["POST", "GET"])
+def register():
     if request.method == "GET":
         output_text = ""
-        return render_template("index.html", output_text=output_text)
+        return render_template("register.html", output_text=output_text)
     else:
         firstname = request.form.get("firstname")
         lastname = request.form.get("lastname")
@@ -149,7 +154,7 @@ def index():
             return render_template("login.html", output_text=output_text)          
         else:
             flash('A user with that username/email already exists. Please retry or log in ', "danger")
-            return redirect(url_for('index',_anchor='error_msg_anchor'))
+            return redirect(url_for('register',_anchor='error_msg_anchor'))
 
 
 
