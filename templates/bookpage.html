@@ -24,7 +24,7 @@
 
         <div class="row">
             <div class="col-sm-12 " >
-               <p style="float: left;">{{who_dis_text}} <a href="{{url_for('login')}}">Log out</a></p> 
+               <p style="float: left;">{{who_dis_text}} <a href="{{url_for('logout')}}">Log out</a></p> 
                <span style="float: right;"><a href="{{url_for('back_to_search')}}">Back to Search Results</a></span> 
             </div>
         </div>
@@ -32,7 +32,7 @@
         <div class="row">
             <div class="col-sm-4" >
                 <div class="card card_style">
-                    <img class="card-img-top my_card_image" src="http://covers.openlibrary.org/b/isbn/0765354063-M.jpg" alt="Nope"  >
+                    <img class="card-img-top my_card_image" src="http://covers.openlibrary.org/b/isbn/{{isbn}}-M.jpg" alt="Nope"  >
                     <div class="card-body">
                       <p class="{{rounded_rating}}-stars card-text" style="text-align: center;"></p>
                     </div>

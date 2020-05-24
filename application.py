@@ -179,11 +179,11 @@ def login(output_text=""):
             return render_template('search_books.html', info=info, results = results, who_dis_text=who_dis_text)
 
 
-@app.route('/logout',methods=["POST"])
+@app.route('/logout')
 def logout():
     session["current_user"] = ""
     session["current_results"] = []
-    return render_template('login.html')
+    return render_template('index.html')
 
 @app.route('/search_books',methods=["POST"])
 def search_books():
